@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_inventory_split_wizard_view_form" model="ir.ui.view">
+        <field name="name">sale.inventory.split.wizard.form</field>
+        <field name="model">sale.inventory.split.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Confirm Sales Order with Split Deliveries">
+                <group>
+                    <field name="order_id"/>
+                </group>
+
+                <separator string="Planned Pickings"/>
+                <button name="action_add_delivery"
+                        type="object"
+                        string="Add Delivery"
+                        class="btn-secondary"/>
+                <field name="planned_picking_ids" nolabel="1">
+                    <list editable="bottom" create="0">
+                        <field name="sequence" widget="handle"/>
+                        <field name="name"/>
+                        <field name="delivery_partner_id"
+                               context="{'show_address': True}"
+                               options="{'no_quick_create': True}"/>
+                        <field name="split_group_key" column_invisible="True"/>
+                    </list>
+                </field>
+
+                <separator string="Planned Stock Moves"/>
+                <field name="allocation_ids" nolabel="1">
+                    <list editable="bottom">
+                        <field name="planned_picking_id"
+                               domain="[('wizard_id', '=', parent.id)]"
+                               options="{'no_create': True, 'no_open': True}"/>
+                        <field name="sale_line_id"
+                               domain="[('order_id', '=', parent.order_id), ('display_type', '=', False), ('is_downpayment', '=', False), ('product_id.type', '=', 'consu')]"
+                               options="{'no_create': True, 'no_open': True}"/>
+                        <field name="product_id" readonly="1"/>
+                        <field name="outstanding_qty" readonly="1"/>
+                        <field name="quantity"/>
+                        <field name="product_uom_id" readonly="1"/>
+                    </list>
+                </field>
+
+                <footer>
+                    <button name="action_confirm_with_split"
+                            type="object"
+                            string="Confirm with Split"
+                            class="btn-primary"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

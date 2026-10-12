@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_order_form_inventory_split" model="ir.ui.view">
+        <field name="name">sale.order.form.inventory.split</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@id='action_confirm']" position="after">
+                <button name="action_open_inventory_split_wizard"
+                        id="action_confirm_with_split_sent"
+                        type="object"
+                        string="Confirm with Split"
+                        class="btn-secondary"
+                        context="{'validate_analytic': True}"
+                        invisible="state != 'sent'"/>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm' and not(@id)]" position="after">
+                <button name="action_open_inventory_split_wizard"
+                        id="action_confirm_with_split_draft"
+                        type="object"
+                        string="Confirm with Split"
+                        context="{'validate_analytic': True}"
+                        invisible="state != 'draft'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
